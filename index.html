@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vershe 色彩即詩 · 深度交流時光 · 色彩語言測驗</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+/*
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  Vershe 色彩即詩 × Color Speaking System                    ║
+  ║  深度交流時光 · 色彩語言破冰測驗                               ║
+  ║  © Vershe 色彩即詩 · Pola's Living                          ║
+  ╚══════════════════════════════════════════════════════════════╝
+*/
+:root {
+  --paper:      #f5f0e8;
+  --paper-l:    #faf7f2;
+  --ink:        #3d3530;
+  --muted:      #c4a882;
+  --muted-d:    #a08060;
+  --primary:    #ffcbc3;
+  --primary-d:  #f0a89e;
+  --primary-l:  #ffe8e5;
+  --serif: 'Cormorant Garamond', 'Noto Serif TC', serif;
+  --sans:  'Noto Sans TC', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
+.app { position: relative; z-index: 1; }
+
+/* ── 頁頭 ── */
+.site-header {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2.4rem 2rem 0.8rem; gap: 4px;
+}
+.brand-name {
+  font-family: var(--serif);
+  font-size: 1.4rem; font-weight: 300;
+  letter-spacing: 0.4em; color: var(--ink);
+}
+.brand-name em { font-style: italic; color: var(--primary-d); }
+.brand-tagline {
+  font-size: 0.62rem; letter-spacing: 0.28em; color: var(--muted);
+}
+
+/* ── 螢幕 ── */
+.screen { display: none; animation: fadeUp 0.55s ease both; }
+.screen.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Hero ── */
+.hero {
+  min-height: 88vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem 2rem 4rem; text-align: center;
+}
+.petal-row {
+  display: flex; gap: 5px;
+  justify-content: center; margin-bottom: 2rem;
+}
+.petal {
+  width: 11px; height: 17px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0; animation: petalIn 0.7s ease forwards;
+}
+@keyframes petalIn { from { opacity: 0; } to { opacity: 1; } }
+.petal:nth-child(1) { animation-delay:.08s; transform:rotate(-35deg); background:#ffcbc3; }
+.petal:nth-child(2) { animation-delay:.16s; transform:rotate(-15deg); background:#f0a89e; }
+.petal:nth-child(3) { animation-delay:.24s; transform:rotate(0deg);   background:#ffd6cf; }
+.petal:nth-child(4) { animation-delay:.32s; transform:rotate(15deg);  background:#ffe8e5; border:1px solid #f0a89e; }
+.petal:nth-child(5) { animation-delay:.40s; transform:rotate(30deg);  background:#f0a89e; }
+
+/* session label */
+.session-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--muted); border: 1px solid rgba(196,168,130,0.4);
+  padding: 5px 14px; margin-bottom: 1.8rem;
+}
+.session-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--primary-d);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero-eyebrow {
+  font-family: var(--serif); font-size: 0.75rem;
+  letter-spacing: 0.3em; color: var(--primary-d);
+  margin-bottom: 0.9rem;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 5.5vw, 3.5rem);
+  font-weight: 300; line-height: 1.25;
+  letter-spacing: 0.04em; color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.hero-title em { font-style: italic; color: var(--primary-d); }
+.hero-sub {
+  font-size: 0.85rem; color: var(--muted);
+  letter-spacing: 0.08em; line-height: 2;
+  max-width: 380px; margin: 1rem auto 2.5rem;
+}
+
+/* 49色預覽條 */
+.palette-preview-row {
+  display: flex; height: 6px;
+  width: min(360px, 88vw);
+  border-radius: 3px; overflow: hidden;
+  margin: 0 auto 2.8rem;
+}
+.pp-seg { flex: 1; }
+
+/* ── 按鈕 ── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--ink); color: var(--paper);
+  border: none; padding: 14px 36px; border-radius: 2px;
+  font-family: var(--sans); font-size: 0.82rem;
+  letter-spacing: 0.2em; cursor: pointer;
+  transition: background .25s, transform .15s;
+}
+.btn-primary:hover { background: var(--primary-d); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-ghost {
+  background: transparent; color: var(--ink);
+  border: 1px solid rgba(61,53,48,0.4);
+  padding: 10px 26px; border-radius: 2px;
+  font-family: var(--sans); font-size: 0.8rem;
+  letter-spacing: 0.14em; cursor: pointer;
+  transition: all .2s;
+}
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+/* ── 測驗 ── */
+.quiz-wrap {
+  max-width: 720px; margin: 0 auto;
+  padding: 2rem 1.5rem 5rem;
+}
+.progress-bar-wrap {
+  height: 2px; background: var(--primary-l);
+  border-radius: 1px; overflow: hidden; margin-bottom: 2.2rem;
+}
+.progress-bar-fill {
+  height: 100%; background: var(--primary-d);
+  border-radius: 1px; transition: width .55s ease;
+}
+.q-meta {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 1.4rem;
+}
+.q-counter { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.15em; }
+
+.question-card {
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(196,168,130,0.22);
+  border-radius: 4px; padding: 2.2rem 1.8rem 1.8rem;
+  backdrop-filter: blur(6px); margin-bottom: 1.4rem;
+}
+.q-type-tag {
+  display: inline-block;
+  font-size: 0.6rem; letter-spacing: 0.22em;
+  color: var(--primary-d);
+  border: 1px solid rgba(240,168,158,0.38);
+  padding: 2px 8px; border-radius: 1px;
+  margin-bottom: 1rem;
+}
+.q-text {
+  font-family: var(--serif); font-size: 1.28rem;
+  font-weight: 300; line-height: 1.75;
+  color: var(--ink); margin-bottom: 0.3rem;
+}
+.q-hint {
+  font-size: 0.76rem; color: var(--muted);
+  letter-spacing: 0.06em; margin-bottom: 1.8rem;
+}
+
+/* ── 色彩選項卡 ── */
+.color-options-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.color-option-card {
+  background: white;
+  border: 1px solid rgba(196,168,130,0.28);
+  border-radius: 4px; overflow: hidden;
+  cursor: pointer; transition: all .22s;
+  text-align: left; user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.color-option-card:hover {
+  border-color: var(--primary-d);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(196,168,130,0.2);
+}
+.color-option-card.selected {
+  border-color: var(--primary-d);
+  box-shadow: inset 0 -3px 0 var(--primary-d), 0 6px 20px rgba(196,168,130,0.22);
+  transform: translateY(-1px);
+}
+
+/* 色票塊 — 詩名嵌入其中 */
+.coc-swatch {
+  width: 100%; height: 110px;
+  position: relative; flex-shrink: 0;
+}
+/* 詩名標籤（嵌入色票左下角）— 同色彩共鳴配對字型 */
+.coc-swatch-label {
+  position: absolute; bottom: 9px; left: 11px;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.68rem; letter-spacing: 0.22em;
+  line-height: 1; pointer-events: none;
+}
+.coc-check {
+  position: absolute; top: 9px; right: 9px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--ink);
+  opacity: 0; transition: opacity .2s;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.18);
+}
+.color-option-card.selected .coc-check { opacity: 1; }
+
+/* 文字區 — 只保留連結語，放大清楚 */
+.coc-body { padding: 14px 15px 16px; }
+.coc-text {
+  font-size: 1.0rem; color: var(--ink);
+  line-height: 1.8; letter-spacing: 0.02em;
+  font-weight: 300;
+}
+
+/* ── 結果 ── */
+.result-wrap {
+  max-width: 740px; margin: 0 auto;
+  padding: 2rem 1.5rem 5rem; text-align: center;
+}
+.result-event-line {
+  font-family: var(--serif); font-size: 0.66rem;
+  letter-spacing: 0.3em; color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.result-label {
+  font-family: var(--serif); font-size: 0.68rem;
+  letter-spacing: 0.35em; color: var(--primary-d);
+  margin-bottom: 0.8rem;
+}
+.result-heading {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 300; line-height: 1.2;
+  color: var(--ink); margin-bottom: 0.4rem;
+}
+.result-sub { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 2.2rem; }
+
+/* 主色圓 */
+.color-circle {
+  width: 180px; height: 180px;
+  border-radius: 50%; margin: 0 auto 0.5rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; font-family: var(--serif);
+  position: relative; transition: background .6s;
+}
+.color-circle::after {
+  content: '';
+  position: absolute; inset: -10px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0,0,0,0.09);
+}
+.cc-hex   { font-size: 0.95rem; letter-spacing: 0.18em; }
+.cc-name  { font-size: 0.7rem;  letter-spacing: 0.22em; opacity: .8; margin-top: 4px; }
+.cc-verse {
+  font-family: var(--serif); font-style: italic;
+  font-size: 0.75rem; color: var(--muted);
+  letter-spacing: 0.06em; line-height: 1.6;
+  max-width: 300px; margin: 0.8rem auto 0;
+}
+
+/* 調色盤條 */
+.palette-strip-row {
+  display: flex; max-width: 480px;
+  margin: 1.8rem auto 0.5rem;
+  border-radius: 4px; overflow: hidden;
+}
+.ps { flex: 1; height: 50px; position: relative; cursor: pointer; transition: flex .3s; }
+.ps:hover { flex: 1.8; }
+.ps-tip {
+  position: absolute; bottom: 4px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px; white-space: nowrap;
+  opacity: 0; transition: opacity .2s;
+  color: rgba(255,255,255,.9);
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.ps:hover .ps-tip { opacity: 1; }
+
+/* 分析卡 */
+.analysis-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; text-align: left; margin: 2rem 0 1.5rem;
+}
+.ana-card {
+  background: rgba(255,255,255,.65);
+  border: 1px solid rgba(196,168,130,.18);
+  border-radius: 3px; padding: 1.1rem 1.2rem;
+}
+.ana-label { font-size: 0.64rem; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 3px; }
+.ana-value { font-family: var(--serif); font-size: 0.96rem; color: var(--ink); }
+
+/* 語言卡 */
+.language-card {
+  background: linear-gradient(135deg, rgba(255,203,195,0.18), rgba(245,240,232,0.5));
+  border: 1px solid rgba(240,168,158,0.32);
+  border-radius: 4px; padding: 2rem 2rem 1.8rem;
+  text-align: center; margin: 1.5rem 0;
+}
+.lc-label {
+  font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--primary-d); margin-bottom: 0.8rem;
+}
+.lc-line {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.15rem; font-weight: 300;
+  color: var(--ink); line-height: 1.7;
+  letter-spacing: 0.04em;
+}
+.lc-hint {
+  font-size: 0.72rem; color: var(--muted);
+  margin-top: 0.8rem; letter-spacing: 0.05em;
+  line-height: 1.7;
+}
+
+/* 配對說明 */
+.pairing-block {
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(196,168,130,.18);
+  border-radius: 3px; padding: 1.4rem 1.5rem;
+  text-align: left; margin: 1.4rem 0;
+}
+.pair-label { font-size: 0.62rem; color: var(--muted); letter-spacing: 0.2em; margin-bottom: 0.6rem; }
+.pair-text { font-size: 0.84rem; color: var(--ink); line-height: 2; }
+.pair-text em { color: var(--primary-d); font-style: normal; }
+
+/* desc */
+.result-desc {
+  font-size: 0.86rem; color: var(--ink);
+  line-height: 2.1; text-align: left;
+  padding: 1.4rem 1.6rem;
+  background: rgba(255,255,255,.6);
+  border: 1px solid rgba(196,168,130,.18);
+  border-left: 2px solid var(--primary-d);
+  border-radius: 0 3px 3px 0;
+  margin: 1.4rem 0;
+}
+
+/* 分隔 */
+.divider {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 1.8rem 0; color: var(--muted);
+  font-size: 0.65rem; letter-spacing: 0.2em;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: rgba(196,168,130,.28);
+}
+
+/* 頁底按鈕列 */
+.result-actions {
+  display: flex; gap: 12px;
+  justify-content: center; flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+
+/* ── RWD ── */
+@media (max-width: 520px) {
+  .analysis-grid { grid-template-columns: 1fr; }
+  .color-options-grid { gap: 8px; }
+  .coc-swatch { height: 88px; }
+  .coc-swatch-label { font-size: 0.62rem; letter-spacing: 0.18em; bottom: 7px; left: 9px; }
+  .coc-body { padding: 11px 11px 12px; }
+  .coc-text { font-size: 0.88rem; line-height: 1.7; }
+  .question-card { padding: 1.6rem 1.2rem 1.4rem; }
+  .q-text { font-size: 1.1rem; }
+  .result-wrap { padding: 2rem 1.2rem 4rem; }
+  .language-card { padding: 1.5rem 1.2rem; }
+  .lc-line { font-size: 1rem; }
+  .result-actions { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- 頁頭 -->
+<header class="site-header">
+  <div class="brand-name">Vershe <em>色彩即詩</em></div>
+  <div class="brand-tagline">Color Speaking System · 深度交流時光</div>
+</header>
+
+<!-- ═══ 首頁 ═══ -->
+<div id="screen-home" class="screen active">
+  <section class="hero">
+    <div class="petal-row">
+      <div class="petal"></div><div class="petal"></div>
+      <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div>
+
+    <div class="session-chip">
+      <span class="session-dot"></span>
+      用色彩說話：深度交流時光
+    </div>
+
+    <div class="hero-eyebrow">色彩語言系統 · Color Speaking System</div>
+    <h1 class="hero-title"><em>色彩對話</em></h1>
+    <p class="hero-sub">
+      這不是普通的色彩測驗<br>
+      它從 49 個 Vershe 色票顏色與意涵<br>
+      找出你在陌生交流裡最自然的溝通色調
+    </p>
+
+    <div class="palette-preview-row">
+      <div class="pp-seg" style="background:#ffcbc3"></div>
+      <div class="pp-seg" style="background:#ffd6cf"></div>
+      <div class="pp-seg" style="background:#7a8c78"></div>
+      <div class="pp-seg" style="background:#9aaa96"></div>
+      <div class="pp-seg" style="background:#c4a882"></div>
+      <div class="pp-seg" style="background:#d4b898"></div>
+      <div class="pp-seg" style="background:#6b7fa3"></div>
+      <div class="pp-seg" style="background:#8a9bb8"></div>
+      <div class="pp-seg" style="background:#d4a853"></div>
+      <div class="pp-seg" style="background:#e8be70"></div>
+      <div class="pp-seg" style="background:#9b7ea0"></div>
+      <div class="pp-seg" style="background:#b08090"></div>
+      <div class="pp-seg" style="background:#3d3530"></div>
+      <div class="pp-seg" style="background:#5c5248"></div>
+    </div>
+
+    <button class="btn-primary" onclick="startQuiz()">
+      開始 5 題測驗 <span>→</span>
+    </button>
+  </section>
+</div>
+
+<!-- ═══ 測驗 ═══ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-wrap">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="q-progress" style="width:0%"></div>
+    </div>
+    <div class="q-meta">
+      <span class="q-counter" id="q-counter">Q 1 / 5</span>
+      <button class="btn-ghost" onclick="goTo('home')"
+        style="padding:5px 13px;font-size:0.7rem">× 結束</button>
+    </div>
+    <div id="question-area"></div>
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="btn-primary" id="next-btn"
+        onclick="nextQuestion()" style="display:none">
+        繼續 <span>→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 結果 ═══ -->
+<div id="screen-result" class="screen">
+  <div class="result-wrap">
+    <div class="result-event-line">深度交流時光 · 色彩語言測驗</div>
+    <div class="result-label" id="r-badge"></div>
+    <h2 class="result-heading" id="r-heading"></h2>
+    <p class="result-sub" id="r-sub"></p>
+
+    <!-- 主色圓 -->
+    <div class="color-circle" id="r-circle">
+      <div class="cc-hex" id="r-hex"></div>
+      <div class="cc-name" id="r-name"></div>
+    </div>
+    <p class="cc-verse" id="r-verse"></p>
+
+    <!-- 色票條 -->
+    <div class="palette-strip-row" id="r-strip"></div>
+
+    <!-- 描述 -->
+    <div class="result-desc" id="r-desc"></div>
+
+    <!-- 分析卡 -->
+    <div class="analysis-grid" id="r-analysis"></div>
+
+    <div class="divider">今天推薦開場語言卡</div>
+    <!-- 語言卡 -->
+    <div class="language-card">
+      <div class="lc-label">Color Speaking Card · Vershe 色彩語言</div>
+      <div class="lc-line" id="r-chatline"></div>
+      <div class="lc-hint" id="r-chathint"></div>
+    </div>
+
+    <div class="divider">今天可能的連結對象</div>
+    <!-- 配對說明 -->
+    <div class="pairing-block">
+      <div class="pair-label">色彩共鳴配對</div>
+      <div class="pair-text" id="r-pair"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-primary" onclick="startQuiz()">重新測驗</button>
+      <button class="btn-ghost" onclick="goTo('home')">回到首頁</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.app -->
+
+<script>
+/* ════════════════════════════════════════════════════════
+   5 題測驗題目
+   每題 4 個色票選項，每張色票直接來自 Vershe 49 色系統
+   選項結構：hex / poem / verse / 連結語 / 計分
+════════════════════════════════════════════════════════ */
+const QUESTIONS = [
+  {
+    /*
+      ── Q1：進入方式 ──────────────────────────────────────────
+      測量維度：初始注意力定向——進入陌生場合時，你的眼睛自然去找「什麼」
+      心理學依據：社交情境下的注意力偏向（attentional bias）反映核心連結策略
+      四型辨別：
+        初光 = 掃描情感訊號（溫暖的臉）
+        苔靜 = 找安靜接收點（先感受整體）
+        遠岫 = 讀社會結構（人與人的格局）
+        稻金 = 定位能量節點（最流動的人）
+      ─────────────────────────────────────────────────────── */
+    type: '進入方式',
+    text: '第一次走進一個陌生的場合，你的眼睛最自然去找的是什麼？',
+    hint: '第一個動作，不是想出來的',
+    options: [
+      {
+        hex:'#ffd6cf', poem:'曉染', verse:'天剛亮，雲朵被染成的顏色',
+        text:'有沒有一張讓你感覺「可以靠近」的臉——找到那個溫度，就找到了起點',
+        scores:{'初光':2,'晨土':1}
+      },
+      {
+        hex:'#4a5e4c', poem:'蕨影', verse:'背陰處的蕨類，沉而不暗',
+        text:'哪個角落最安靜——先停在那裡，把整個場的感覺慢慢接進來',
+        scores:{'苔靜':2,'墨霞':1}
+      },
+      {
+        hex:'#6b7fa3', poem:'遠岫', verse:'遠山與天空的邊界，不確定屬於誰',
+        text:'整個空間裡人與人是怎麼分布的——先把格局看清楚再走進去',
+        scores:{'遠岫':2,'墨霞':1}
+      },
+      {
+        hex:'#d4a853', poem:'稻熟', verse:'九月稻穗，是整個夏天努力的顏色',
+        text:'誰的能量最流動——找到那個人，對話就有了起點',
+        scores:{'稻金':2,'初光':1}
+      }
+    ]
+  },
+  {
+    /*
+      ── Q2：情感接收 ──────────────────────────────────────────
+      測量維度：面對他人脆弱時的第一個本能反應——反映核心情感調節策略
+      心理學依據：個體面對他人脆弱的差異化反應（stabilize / deepen / resonate / hold）
+      四型辨別：
+        晨土 = 穩定化衝動（讓這裡承得住）注意力在「空間/環境」
+        墨霞 = 探入衝動（往底下走一層）注意力在「話語背後」
+        初光 = 共鳴衝動（你感覺到了想讓他知道）注意力在「情感連結」
+        苔靜 = 承接衝動（靜靜在那裡）注意力在「對方的存在」
+      ─────────────────────────────────────────────────────── */
+    type: '情感接收',
+    text: '對方說了一件對他來說很重的事。你心裡升起的第一個感覺，最像哪個顏色？',
+    hint: '不是你決定要做什麼——是那個感覺本身是什麼',
+    options: [
+      {
+        hex:'#c4a882', poem:'礫跡', verse:'石板路積下的不是塵，而是時間的顏色',
+        text:'想讓這裡更穩——讓他感覺這個地方可以承接他說的東西',
+        scores:{'晨土':2,'苔靜':1}
+      },
+      {
+        hex:'#9b7ea0', poem:'薄暮', verse:'傍晚天色轉紫前的過渡',
+        text:'想往他說的底下走一層——那裡是什麼，你想靠近',
+        scores:{'墨霞':2,'遠岫':1}
+      },
+      {
+        hex:'#fce4e0', poem:'春氣', verse:'空氣裡有花香但還找不到花',
+        text:'你感覺到了——想讓他知道你也感覺到了',
+        scores:{'初光':2,'稻金':1}
+      },
+      {
+        hex:'#5e7060', poem:'林深', verse:'走進去後才發現有多綠的那個深',
+        text:'想靜靜接住——不說什麼，只是讓他知道你在',
+        scores:{'苔靜':2,'晨土':1}
+      }
+    ]
+  },
+  {
+    /*
+      ── Q3：對話方式 ──────────────────────────────────────────
+      測量維度：你在對話中自然承擔的角色——反映你的貢獻方式與注意力對象
+      心理學依據：對話中的角色分化（observing / receiving / enabling / depth-seeking）
+      四型辨別：
+        遠岫 = 先聽完再提問（問題是工具，解鎖對方）
+        苔靜 = 說少但全收（注意力完全在對方身上）
+        晨土 = 不急放鬆型（注意力在你自己的舒適感，讓對方跟著放鬆）
+        墨霞 = 被底層吸引（注意力在話語的隱藏層）
+      ─────────────────────────────────────────────────────── */
+    type: '對話方式',
+    text: '你在對話裡，最自然的方式是什麼？',
+    hint: '不是你希望自己是哪種——是你通常真的怎麼做',
+    options: [
+      {
+        hex:'#8a9bb8', poem:'晴湖', verse:'無風時湖面映出的天',
+        text:'先把對方說的聽完，再問一個讓他停下來思考的問題',
+        scores:{'遠岫':2,'墨霞':1}
+      },
+      {
+        hex:'#7a8c78', poem:'苔歲', verse:'一塊苔蘚記得的雨，比任何人都多',
+        text:'說的不多，但全都有接住——對方說什麼，你都在',
+        scores:{'苔靜':2,'晨土':1}
+      },
+      {
+        hex:'#e8d8c0', poem:'稻田', verse:'收割前田野的整體色調',
+        text:'不急，說著說著就放鬆，話自然就出來了',
+        scores:{'晨土':2,'苔靜':1}
+      },
+      {
+        hex:'#7a6488', poem:'宵紫', verse:'入夜後紫色失去了白日的鮮豔，卻獲得了夜的深度',
+        text:'你被話背後的那一層吸引——那裡才是你想走進去的地方',
+        scores:{'墨霞':2,'遠岫':1}
+      }
+    ]
+  },
+  {
+    /*
+      ── Q4：開啟條件 ──────────────────────────────────────────
+      測量維度：你自己打開、說真話的內在觸發機制
+      心理學依據：自我披露的觸發差異（pressure-free / felt-presence / intellectual-unlock / organic-momentum）
+      四型辨別：
+        苔靜 = 無壓力空間開啟（沒有催促，話慢慢出來）
+        初光 = 被在場感接住（感覺對方真的在，被接住）
+        遠岫 = 被精準提問解鎖（發現自己有個沒說出口的答案）
+        稻金 = 自然流動帶出（節奏帶著走，真實的東西自然浮現）
+      ─────────────────────────────────────────────────────── */
+    type: '開啟條件',
+    text: '什麼讓你感覺：跟這個人，可以說出平常不輕易說的話？',
+    hint: '是你自己的哪個狀態打開了——不是對方要有什麼',
+    options: [
+      {
+        hex:'#b8c8b4', poem:'初葉', verse:'春天第一片葉子的顏色',
+        text:'對方不催你——那個不急的空間，讓你的話慢慢出來',
+        scores:{'苔靜':2,'晨土':1}
+      },
+      {
+        hex:'#f0a89e', poem:'餘暉', verse:'光將落未落的邊境，橘與粉的交界之處',
+        text:'你感覺到對方真的在場——那個被接住的感覺讓你打開',
+        scores:{'初光':2,'苔靜':1}
+      },
+      {
+        hex:'#4e6080', poem:'暮靛', verse:'暮色中藍轉為靛的那一刻',
+        text:'對方問了一個讓你停下來想的問題——你才發現自己其實有個答案',
+        scores:{'遠岫':2,'墨霞':1}
+      },
+      {
+        hex:'#c49030', poem:'秋陽', verse:'秋天低角度的陽光特有的金',
+        text:'對話有了一種流動——說著說著，真實的東西自然就出來了',
+        scores:{'稻金':2,'初光':1}
+      }
+    ]
+  },
+  {
+    /*
+      ── Q5：親密定義 ──────────────────────────────────────────
+      測量維度：你心底對「真正親密」的核心定義——反映最深的連結需求
+      心理學依據：親密感的差異化定義（witnessed / co-present / authentic-shared / felt-understood）
+      四型辨別：
+        墨霞 = 被見證（話語被認真記得，留下痕跡）
+        晨土 = 靜默共在（不說話也穩，彼此知道對方在）
+        稻金 = 共同碰觸真實（說著說著笑了，因為真實）
+        初光 = 被輕輕懂了（感受說出，對方的眼神讓你知道他懂了）
+      ─────────────────────────────────────────────────────── */
+    type: '親密定義',
+    text: '真正的親密感，在你心裡最像哪個顏色？',
+    hint: '不是你認為應該怎樣回答——是你心裡早就認識的那個感覺',
+    options: [
+      {
+        hex:'#5c5248', poem:'燼後', verse:'火燃盡之後，灰知道自己曾經是火',
+        text:'你說的話對方認真記得——那句話不會消失，不需要重說',
+        scores:{'墨霞':2,'遠岫':1}
+      },
+      {
+        hex:'#d4b898', poem:'砂印', verse:'海灘上腳印留下的淡褐',
+        text:'不需要解釋，彼此知道對方在——不說話也穩',
+        scores:{'晨土':2,'苔靜':1}
+      },
+      {
+        hex:'#f0c060', poem:'暖曦', verse:'剛升起時太陽還帶著暖意',
+        text:'說著說著突然都笑了——因為說到了什麼真實的東西',
+        scores:{'稻金':2,'初光':1}
+      },
+      {
+        hex:'#ffe8e5', poem:'霞隱', verse:'霞光散入雲後幾乎不可見的白',
+        text:'輕輕說出一個感受，對方的眼神讓你知道：他懂了',
+        scores:{'初光':2,'晨土':1}
+      }
+    ]
+  }
+];
+
+/* ════════════════════════════════════════════════════════
+   六型結果資料
+   色票使用真實 Vershe 49 色系統
+════════════════════════════════════════════════════════ */
+const RESULTS = {
+  '初光': {
+    poem:    '曉染',
+    hex:     '#ffd6cf',
+    verse:   '天剛亮，雲朵被染成的顏色',
+    badge:   '初光群 G1 · 溫柔共鳴型',
+    heading: '初光',
+    sub:     '你不是軟，你是最早讓對方感覺到「被看見」的人。',
+    desc:    '你有一種天然的情感接收能力——別人說話時，你幾乎同步感覺到了他在說什麼。這不是技巧，是你真實的感知方式。這讓你說話時帶著一種溫度，對方感覺到「這個人真的在」。\n\n色彩心理學角度：初光群是 49 色中光感最輕柔的一族，對應「開放的情感接收場」——它不是主動發光，而是讓光自然漫進來的質地。\n\n你需要留意的是：你感覺到的有時比對方說的還多，讓你想替他說完——記得讓他先說完，那個空間是他的。',
+    palette: [
+      {hex:'#ffcbc3', name:'初醒'},
+      {hex:'#ffd6cf', name:'曉染'},
+      {hex:'#fce4e0', name:'春氣'},
+      {hex:'#f0a89e', name:'餘暉'},
+      {hex:'#ffe8e5', name:'霞隱'}
+    ],
+    analysis: [
+      {label:'溝通核心',    value:'情感共鳴'},
+      {label:'你的語言質地', value:'溫柔有熱度'},
+      {label:'你給出的禮物', value:'讓人感覺不孤單'},
+      {label:'今天練習',    value:'讓對方說完，再說你的感受'}
+    ],
+    chatLine: '「我也有過這種感覺耶，你繼續說。」',
+    chatHint: '說完之後什麼都不用加，讓對方繼續。這句話的力量在於短——它確認了共鳴，然後把空間還給他。',
+    pair: '今天最容易連結的對象：<em>苔靜型</em>——他的安靜是你說話的安全網，你的溫度讓他不需要準備好才開口。<br><br>讓你有驚喜的對象：<em>遠岫型</em>——他會問你一個你沒想過的問題，讓你發現自己的感受比你以為的更深。'
+  },
+  '苔靜': {
+    poem:    '苔歲',
+    hex:     '#7a8c78',
+    verse:   '一塊苔蘚記得的雨，比任何人都多',
+    badge:   '苔語群 G2 · 深聽見證型',
+    heading: '苔靜',
+    sub:     '你不是沉默，你是讓別人的話有地方落下的人。',
+    desc:    '你有一種稀有的能力：不催促、不評判、不急著填補空白。這讓人在你旁邊說出平常說不出的話——不是因為你說了什麼，而是因為你怎麼在。心理學上這叫「見證型陪伴」，是最深的一種連結方式。\n\n色彩心理學角度：苔語群是 49 色中承載力最深的中性綠系，不是霸道的深，而是像濕土壤一樣——有重量，但是讓東西生長的重量。\n\n你需要留意的是：你接住的東西多，但自己說的少——今天試著主動說一件你的事，讓別人也有機會接你。',
+    palette: [
+      {hex:'#9aaa96', name:'煙綠'},
+      {hex:'#7a8c78', name:'苔歲'},
+      {hex:'#5e7060', name:'林深'},
+      {hex:'#b8c8b4', name:'初葉'},
+      {hex:'#4a5e4c', name:'蕨影'}
+    ],
+    analysis: [
+      {label:'溝通核心',    value:'深聽見證'},
+      {label:'你的語言質地', value:'安靜有承載'},
+      {label:'你給出的禮物', value:'讓人聽見自己'},
+      {label:'今天練習',    value:'主動說一件你自己的事'}
+    ],
+    chatLine: '「你說到哪就說到哪，我在聽。」',
+    chatHint: '在對方猶豫或話說到一半停下來的時刻說這句話。它不是在問問題，是在給他一個沒有終點的空間——不需要整理好才說。',
+    pair: '今天最容易連結的對象：<em>初光型</em>——他的溫度讓你不需要先準備好才說話，他先開口，你自然接上。<br><br>讓你有驚喜的對象：<em>稻金型</em>——他的能量會帶著你，讓你發現連結有時候可以很輕盈，不用那麼有重量才算真。'
+  },
+  '晨土': {
+    poem:    '礫跡',
+    hex:     '#c4a882',
+    verse:   '石板路積下的不是塵，而是時間的顏色',
+    badge:   '塵路群 G3 · 穩定守候型',
+    heading: '晨土',
+    sub:     '你不是慢，你是讓陌生人覺得「在這裡可以放下來」的人。',
+    desc:    '你的存在有一種底色的穩定。你不需要表現什麼，光是你的樣子就讓對方感到安全。在社交場合，人通常只是在找表演的對象，而你給的是一個可以真實的空間——這是非常稀有的禮物。\n\n色彩心理學角度：塵路群是 49 色中時間感最強的暖褐系，它的溫度是時間積累出來的，不是表演出來的——這正是你的本質。\n\n你需要留意的是：你的穩定有時讓人誤以為你沒有需求——今天試著讓一個人知道，你也是需要被接住的。',
+    palette: [
+      {hex:'#d4b898', name:'砂印'},
+      {hex:'#c4a882', name:'礫跡'},
+      {hex:'#b89878', name:'晨土'},
+      {hex:'#e8d8c0', name:'稻田'},
+      {hex:'#a08060', name:'木暮'}
+    ],
+    analysis: [
+      {label:'溝通核心',    value:'穩定守候'},
+      {label:'你的語言質地', value:'踏實有根'},
+      {label:'你給出的禮物', value:'讓人感到不用趕'},
+      {label:'今天練習',    value:'說一件你自己的需要'}
+    ],
+    chatLine: '「不趕，我們可以慢慢說。」',
+    chatHint: '在節奏變快、話題跳太快的時刻說這句話。它像一個錨——讓對方知道他不需要趕上什麼，可以就在這裡。',
+    pair: '今天最容易連結的對象：<em>稻金型</em>——他的流動需要你的穩，你的穩在他旁邊不會被誤解為無聊，而是被珍惜為安全感。<br><br>讓你有驚喜的對象：<em>墨霞型</em>——他帶你進入你平常不會自己走進的深度，讓你發現穩定裡也可以有詩意。'
+  },
+  '遠岫': {
+    poem:    '遠岫',
+    hex:     '#6b7fa3',
+    verse:   '遠山與天空的邊界，不確定屬於誰',
+    badge:   '遠岫群 G4 · 靜定觀察型',
+    heading: '遠岫',
+    sub:     '你不是冷，你是最早看見別人「還沒說出口的那句話」的人。',
+    desc:    '你有一種觀察力，讓你在別人說話時感知到話語底下的結構——他真正在說的是什麼、他繞開的是什麼、他其實想被問到的是哪裡。這讓你問的問題不是破冰，而是解鎖。\n\n色彩心理學角度：遠岫群是 49 色中知性清醒感最強的藍灰系，不是冷漠的藍，而是遠山的藍：有距離，但那個距離是觀察用的，不是拒絕。\n\n你需要留意的是：你的觀察有時讓人感到被研究而非被接納——今天在提問之前，先說一句自己的感受，讓對方知道你也是在場的。',
+    palette: [
+      {hex:'#b4c0d4', name:'霧際'},
+      {hex:'#8a9bb8', name:'晴湖'},
+      {hex:'#6b7fa3', name:'遠岫'},
+      {hex:'#4e6080', name:'暮靛'},
+      {hex:'#d0d8e8', name:'雨前'}
+    ],
+    analysis: [
+      {label:'溝通核心',    value:'精準觀察'},
+      {label:'你的語言質地', value:'清晰有深度'},
+      {label:'你給出的禮物', value:'讓人看見自己'},
+      {label:'今天練習',    value:'說一句感受，再提問'}
+    ],
+    chatLine: '「你說的這個，你是怎麼想到的？」',
+    chatHint: '不需要鋪墊，直接問。這句話讓對方感覺：他說的話被真正注意到了，不是禮貌性的回應，是你真的在聽。',
+    pair: '今天最容易連結的對象：<em>苔靜型</em>——他的安靜給你空間觀察，不催促你，你的停頓在他旁邊不是尷尬，是思考。<br><br>讓你有驚喜的對象：<em>初光型</em>——他的情感溫度會打開你通常用觀察替代的那個區域，讓你感覺到、而不只是看見。'
+  },
+  '稻金': {
+    poem:    '稻熟',
+    hex:     '#d4a853',
+    verse:   '九月稻穗，是整個夏天努力的顏色',
+    badge:   '稻金群 G5 · 熱情催化型',
+    heading: '稻金',
+    sub:     '你不是鬧，你是讓一段對話有了方向和溫度的人。',
+    desc:    '你有一種天然的催化能力——你進入一段對話，節奏就變了：有方向、有溫度、有想繼續的理由。你讓陌生人覺得跟你說話是有意思的。這不是技巧，是你對連結本身的熱情是真的。\n\n色彩心理學角度：稻金群是 49 色中成熟能量感最強的暖金系，不是爆發的金，是九月稻穗那種：有重量、有溫度，是真的長好了的顏色——能量裡有底氣。\n\n你需要留意的是：你的能量有時讓對話節奏快過了對方的準備速度——今天偶爾停一下，讓對方追上你，那個停頓也是一種禮物。',
+    palette: [
+      {hex:'#f0c060', name:'暖曦'},
+      {hex:'#e8be70', name:'金午'},
+      {hex:'#d4a853', name:'稻熟'},
+      {hex:'#f5d490', name:'蜜光'},
+      {hex:'#c49030', name:'秋陽'}
+    ],
+    analysis: [
+      {label:'溝通核心',    value:'熱情催化'},
+      {label:'你的語言質地', value:'溫暖有動能'},
+      {label:'你給出的禮物', value:'讓對話活起來'},
+      {label:'今天練習',    value:'停下來，讓對方說'}
+    ],
+    chatLine: '「你這個人很有意思，我可以再問你一件事嗎？」',
+    chatHint: '先給一個真實的回饋，再開一扇門。前半句讓對方暖起來，後半句讓對話繼續。說出來就對了，不需要再想。',
+    pair: '今天最容易連結的對象：<em>晨土型</em>——你的能量在他旁邊有了落地的地方，他的穩讓你的熱情不是對著空氣說話。<br><br>讓你有驚喜的對象：<em>苔靜型</em>——他的安靜會讓你第一次感覺到：不是每個停頓都需要被填滿，那個深的沉默也是一種連結。'
+  },
+  '墨霞': {
+    poem:    '薄暮',
+    hex:     '#9b7ea0',
+    verse:   '傍晚天色轉紫前的過渡，白日與夜的邊界',
+    badge:   '霞翳群 G7 · 深沉直覺型',
+    heading: '墨霞',
+    sub:     '你不是難懂，你是讓真實的對話能夠發生的人。',
+    desc:    '你有一種直覺能力：感知到對方話語背後還有一層，然後走進去。你不滿足於表面的交換，你想說真正的話、聽真正的話。這讓你成為那種讓人覺得「跟你說話，我說了以前沒說過的事」的存在。\n\n色彩心理學角度：霞翳群是 49 色中最難被單一定義的過渡系，是傍晚天色轉紫前的那一層：不是白日，不是夜晚，而是一個什麼都可能發生的時刻——這正是你創造的對話質地。\n\n你需要留意的是：你的深度有時超過對方當下的承載力——今天允許自己說一句輕的話，連結不必每次都要深才算數。',
+    palette: [
+      {hex:'#e8c8d4', name:'夢粉'},
+      {hex:'#d4a8b8', name:'霧玫'},
+      {hex:'#9b7ea0', name:'薄暮'},
+      {hex:'#b08090', name:'鈍玫'},
+      {hex:'#7a6488', name:'宵紫'}
+    ],
+    analysis: [
+      {label:'溝通核心',    value:'深沉直覺'},
+      {label:'你的語言質地', value:'詩性有穿透力'},
+      {label:'你給出的禮物', value:'讓真實對話發生'},
+      {label:'今天練習',    value:'試著說一句輕的話'}
+    ],
+    chatLine: '「我直接說我在想什麼，好嗎？」',
+    chatHint: '這不是警告，是邀請。說完之後等一下，讓對方決定是否也同樣真實。這句話會找到今天真正能跟你說話的人。',
+    pair: '今天最容易連結的對象：<em>遠岫型</em>——他能跟上你的思路，還會問你一個精準的問題讓你說得更深。<br><br>讓你有驚喜的對象：<em>初光型</em>——他不複雜的溫度會給你一個少有的體驗：連結可以不需要深度，只要真實就夠了。'
+  }
+};
+
+/* ════════════════════════════════════════════════════════
+   狀態
+════════════════════════════════════════════════════════ */
+let currentQ   = 0;
+let selections = [];   // 每題選的 option index
+const TYPES    = ['初光','苔靜','晨土','遠岫','稻金','墨霞'];
+
+/* ════════════════════════════════════════════════════════
+   啟動
+════════════════════════════════════════════════════════ */
+function startQuiz() {
+  currentQ   = 0;
+  selections = [];
+  goTo('quiz');
+  renderQuestion();
+}
+
+/* ════════════════════════════════════════════════════════
+   渲染題目
+════════════════════════════════════════════════════════ */
+function renderQuestion() {
+  const q   = QUESTIONS[currentQ];
+  const pct = (currentQ / QUESTIONS.length) * 100;
+
+  document.getElementById('q-progress').style.width = pct + '%';
+  document.getElementById('q-counter').textContent  = `Q ${currentQ+1} / ${QUESTIONS.length}`;
+  document.getElementById('next-btn').style.display = 'none';
+
+  const area = document.getElementById('question-area');
+  area.innerHTML = `
+    <div class="question-card">
+      <span class="q-type-tag">${q.type}</span>
+      <div class="q-text">${q.text}</div>
+      <div class="q-hint">${q.hint}</div>
+      <div class="color-options-grid" id="options-grid">
+        ${q.options.map((opt, i) => {
+          const dark   = isColorDark(opt.hex);
+          const lblClr = dark
+            ? 'rgba(245,240,232,0.92)'
+            : 'rgba(61,53,48,0.68)';
+          const lblShadow = dark
+            ? '0 1px 4px rgba(0,0,0,0.35)'
+            : '0 0 6px rgba(255,255,255,0.7)';
+          return `
+            <div class="color-option-card" id="opt-${i}" onclick="selectOption(${i})">
+              <div class="coc-swatch" style="background:${opt.hex}">
+                <div class="coc-check">✓</div>
+                <div class="coc-swatch-label"
+                     style="color:${lblClr};text-shadow:${lblShadow}">${opt.poem}</div>
+              </div>
+              <div class="coc-body">
+                <div class="coc-text">${opt.text}</div>
+              </div>
+            </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+
+  // Restore selection if going back (N/A here but good practice)
+  if (selections[currentQ] !== undefined) {
+    document.getElementById(`opt-${selections[currentQ]}`).classList.add('selected');
+    document.getElementById('next-btn').style.display = 'inline-flex';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectOption(i) {
+  selections[currentQ] = i;
+  document.querySelectorAll('.color-option-card')
+    .forEach((el, idx) => el.classList.toggle('selected', idx === i));
+  document.getElementById('next-btn').style.display = 'inline-flex';
+}
+
+function nextQuestion() {
+  if (selections[currentQ] === undefined) return;
+  if (currentQ < QUESTIONS.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    calcResult();
+  }
+}
+
+/* ════════════════════════════════════════════════════════
+   計算結果
+════════════════════════════════════════════════════════ */
+function calcResult() {
+  const totals = {};
+  const twos   = {};
+  TYPES.forEach(t => { totals[t] = 0; twos[t] = 0; });
+
+  selections.forEach((sel, qi) => {
+    const scoreMap = QUESTIONS[qi].options[sel].scores;
+    for (const [type, pts] of Object.entries(scoreMap)) {
+      totals[type] = (totals[type] || 0) + pts;
+      if (pts === 2) twos[type] = (twos[type] || 0) + 1;
+    }
+  });
+
+  // 取最高分者，同分則比較 2-pt 次數，再比最後一題
+  let best = TYPES[0];
+  for (const t of TYPES) {
+    if (totals[t] > totals[best]) {
+      best = t;
+    } else if (totals[t] === totals[best]) {
+      if (twos[t] > twos[best]) best = t;
+      else if (twos[t] === twos[best]) {
+        const last = QUESTIONS[QUESTIONS.length - 1].options[selections[QUESTIONS.length - 1]].scores;
+        if ((last[t] || 0) > (last[best] || 0)) best = t;
+      }
+    }
+  }
+  showResult(best);
+}
+
+/* ════════════════════════════════════════════════════════
+   顯示結果
+════════════════════════════════════════════════════════ */
+function showResult(type) {
+  const r = RESULTS[type];
+
+  document.getElementById('r-badge').textContent   = r.badge;
+  document.getElementById('r-heading').textContent = r.heading;
+  document.getElementById('r-sub').textContent     = r.sub;
+  document.getElementById('r-verse').textContent   = r.verse;
+  document.getElementById('r-desc').textContent    = r.desc;
+  document.getElementById('r-chatline').textContent = r.chatLine;
+  document.getElementById('r-chathint').textContent = r.chatHint;
+  document.getElementById('r-pair').innerHTML       = r.pair;
+
+  // 主色圓
+  const circle   = document.getElementById('r-circle');
+  const isDark   = isColorDark(r.hex);
+  const textClr  = isDark ? 'rgba(245,240,232,0.92)' : 'rgba(61,53,48,0.88)';
+  circle.style.background = r.hex;
+  document.getElementById('r-hex').style.color  = textClr;
+  document.getElementById('r-name').style.color = textClr;
+  document.getElementById('r-hex').textContent  = r.hex.toUpperCase();
+  document.getElementById('r-name').textContent = r.poem;
+
+  // 調色盤條
+  const strip = document.getElementById('r-strip');
+  strip.innerHTML = r.palette.map(p =>
+    `<div class="ps" style="background:${p.hex}">
+       <span class="ps-tip">${p.name}</span>
+     </div>`
+  ).join('');
+
+  // 分析卡
+  const grid = document.getElementById('r-analysis');
+  grid.innerHTML = r.analysis.map(a =>
+    `<div class="ana-card">
+       <div class="ana-label">${a.label}</div>
+       <div class="ana-value">${a.value}</div>
+     </div>`
+  ).join('');
+
+  document.getElementById('q-progress').style.width = '100%';
+  goTo('result');
+}
+
+/* ════════════════════════════════════════════════════════
+   工具
+════════════════════════════════════════════════════════ */
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function isColorDark(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return (r*299 + g*587 + b*114) / 1000 < 128;
+}
+</script>
+</body>
+</html>
