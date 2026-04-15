@@ -196,60 +196,124 @@ body::before {
   letter-spacing: 0.06em; margin-bottom: 1.8rem;
 }
 
-/* ── 色彩選項卡 ── */
+/* ══════════════════════════════════════════
+   第一階段：純色彩選擇
+   只顯示色塊＋詩名，無任何說明文字
+══════════════════════════════════════════ */
 .color-options-grid {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 12px;
 }
 .color-option-card {
-  background: white;
-  border: 1px solid rgba(196,168,130,0.28);
   border-radius: 4px; overflow: hidden;
-  cursor: pointer; transition: all .22s;
-  text-align: left; user-select: none;
+  cursor: pointer;
+  transition: transform .22s, box-shadow .22s, opacity .3s;
+  user-select: none;
   -webkit-tap-highlight-color: transparent;
+  /* 選完後，非選中項淡化 */
+  opacity: 1;
 }
-.color-option-card:hover {
-  border-color: var(--primary-d);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(196,168,130,0.2);
+/* 選完進入揭示階段：未選中的卡片淡化 */
+.phase-reveal .color-option-card:not(.selected) {
+  opacity: 0.38;
+  transform: none;
+  cursor: default;
+  pointer-events: none;
 }
-.color-option-card.selected {
-  border-color: var(--primary-d);
-  box-shadow: inset 0 -3px 0 var(--primary-d), 0 6px 20px rgba(196,168,130,0.22);
-  transform: translateY(-1px);
+.color-option-card:hover .coc-swatch { filter: brightness(1.04); }
+.phase-reveal .color-option-card:not(.selected):hover .coc-swatch {
+  filter: none;
+}
+.color-option-card.selected .coc-swatch {
+  outline: 3px solid var(--primary-d);
+  outline-offset: -3px;
 }
 
-/* 色票塊 — 詩名嵌入其中 */
+/* 色票塊 — 整張卡就是顏色 */
 .coc-swatch {
-  width: 100%; height: 110px;
+  width: 100%; height: 150px;
   position: relative; flex-shrink: 0;
+  transition: filter .22s;
 }
-/* 詩名標籤（嵌入色票左下角）— 同色彩共鳴配對字型 */
+/* 詩名標籤（色票左下角）*/
 .coc-swatch-label {
-  position: absolute; bottom: 9px; left: 11px;
+  position: absolute; bottom: 10px; left: 12px;
   font-family: var(--sans);
   font-weight: 300;
   font-size: 0.68rem; letter-spacing: 0.22em;
   line-height: 1; pointer-events: none;
 }
+/* 選取打勾 */
 .coc-check {
-  position: absolute; top: 9px; right: 9px;
-  width: 22px; height: 22px; border-radius: 50%;
-  background: rgba(255,255,255,0.9);
+  position: absolute; top: 10px; right: 10px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(255,255,255,0.92);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; color: var(--ink);
+  font-size: 12px; color: var(--ink);
   opacity: 0; transition: opacity .2s;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.18);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.2);
 }
 .color-option-card.selected .coc-check { opacity: 1; }
 
-/* 文字區 — 只保留連結語，放大清楚 */
-.coc-body { padding: 14px 15px 16px; }
-.coc-text {
-  font-size: 1.0rem; color: var(--ink);
-  line-height: 1.8; letter-spacing: 0.02em;
-  font-weight: 300;
+/* 點擊提示文字（第一階段顯示在 grid 下方）*/
+.select-hint {
+  text-align: center;
+  font-size: 0.72rem; color: var(--muted);
+  letter-spacing: 0.12em;
+  margin-top: 1rem;
+  transition: opacity .3s;
+}
+.phase-reveal .select-hint { opacity: 0; pointer-events: none; height: 0; margin: 0; overflow: hidden; }
+
+/* ══════════════════════════════════════════
+   第二階段：揭示說明卡
+   選色後才出現，從下方淡入
+══════════════════════════════════════════ */
+.reveal-card {
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(196,168,130,0.3);
+  border-left: 2px solid var(--primary-d);
+  border-radius: 0 4px 4px 0;
+  padding: 1.5rem 1.8rem 1.6rem;
+  margin-top: 1.4rem;
+  animation: fadeUp 0.45s ease both;
+}
+.reveal-top {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 1rem;
+}
+.reveal-dot {
+  width: 38px; height: 38px; border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.07);
+}
+.reveal-poem {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.05rem; color: var(--ink);
+  letter-spacing: 0.06em;
+}
+.reveal-verse {
+  font-size: 0.68rem; color: var(--muted);
+  font-style: italic; letter-spacing: 0.04em;
+  line-height: 1.5; margin-top: 2px;
+}
+.reveal-text {
+  font-size: 0.96rem; color: var(--ink);
+  line-height: 1.95; font-weight: 300;
+  letter-spacing: 0.02em;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(196,168,130,0.2);
+}
+.reveal-change {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.7rem; color: var(--muted);
+  letter-spacing: 0.12em; cursor: pointer;
+  background: none; border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-family: var(--sans);
+  padding: 0;
 }
 
 /* ── 結果 ── */
@@ -293,9 +357,11 @@ body::before {
 .cc-name  { font-size: 0.7rem;  letter-spacing: 0.22em; opacity: .8; margin-top: 4px; }
 .cc-verse {
   font-family: var(--serif); font-style: italic;
-  font-size: 0.75rem; color: var(--muted);
-  letter-spacing: 0.06em; line-height: 1.6;
-  max-width: 300px; margin: 0.8rem auto 0;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.06em; line-height: 1.7;
+  width: 100%; max-width: 320px;
+  margin: 0.8rem auto 0;
+  word-break: break-word;
 }
 
 /* 調色盤條 */
@@ -365,15 +431,18 @@ body::before {
 
 /* desc */
 .result-desc {
-  font-size: 0.86rem; color: var(--ink);
-  line-height: 2.1; text-align: left;
+  font-size: 0.88rem; color: var(--ink);
+  line-height: 2; text-align: left;
   padding: 1.4rem 1.6rem;
   background: rgba(255,255,255,.6);
   border: 1px solid rgba(196,168,130,.18);
   border-left: 2px solid var(--primary-d);
   border-radius: 0 3px 3px 0;
   margin: 1.4rem 0;
+  word-break: break-word;
 }
+.result-desc p { margin-bottom: 0.9rem; }
+.result-desc p:last-child { margin-bottom: 0; }
 
 /* 分隔 */
 .divider {
@@ -393,20 +462,135 @@ body::before {
   margin-top: 2.5rem;
 }
 
-/* ── RWD ── */
-@media (max-width: 520px) {
-  .analysis-grid { grid-template-columns: 1fr; }
+/* ════════════════════════════════════════
+   RWD — 手機完整優化
+════════════════════════════════════════ */
+@media (max-width: 560px) {
+
+  /* ── 頁頭 ── */
+  .site-header  { padding: 1.8rem 1.2rem 0.6rem; }
+  .brand-name   { font-size: 1.15rem; letter-spacing: 0.28em; }
+  .brand-tagline { font-size: 0.6rem; }
+
+  /* ── Hero ── */
+  .hero { padding: 2.5rem 1.4rem 3.5rem; }
+  .hero-eyebrow { font-size: 0.64rem; }
+  .hero-title   { font-size: clamp(1.75rem, 7.5vw, 2.3rem); }
+  .hero-sub     { font-size: 0.9rem; }
+
+  /* ── 測驗外框 ── */
+  .quiz-wrap    { padding: 1.5rem 1rem 2rem; }
+  .q-counter    { font-size: 0.76rem; }
+  .q-type-tag   { font-size: 0.63rem; padding: 3px 9px; }
+
+  /* ── 題目卡 ── */
+  .question-card { padding: 1.5rem 1.1rem 1.3rem; }
+  .q-text {
+    font-size: 1.08rem; line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+  .q-hint { font-size: 0.8rem; margin-bottom: 1.5rem; }
+
+  /* ── 色票選項 ── */
   .color-options-grid { gap: 8px; }
-  .coc-swatch { height: 88px; }
-  .coc-swatch-label { font-size: 0.62rem; letter-spacing: 0.18em; bottom: 7px; left: 9px; }
-  .coc-body { padding: 11px 11px 12px; }
-  .coc-text { font-size: 0.88rem; line-height: 1.7; }
-  .question-card { padding: 1.6rem 1.2rem 1.4rem; }
-  .q-text { font-size: 1.1rem; }
-  .result-wrap { padding: 2rem 1.2rem 4rem; }
-  .language-card { padding: 1.5rem 1.2rem; }
-  .lc-line { font-size: 1rem; }
-  .result-actions { flex-direction: column; align-items: center; }
+  .coc-swatch   { height: 115px; }
+  .coc-swatch-label {
+    font-size: 0.64rem; letter-spacing: 0.16em;
+    bottom: 8px; left: 9px;
+  }
+  .select-hint  { font-size: 0.78rem; margin-top: 1rem; }
+
+  /* ── 揭示卡 ── */
+  .reveal-card  { padding: 1.2rem 1.1rem 1.3rem; margin-top: 0.9rem; }
+  .reveal-dot   { width: 32px; height: 32px; }
+  .reveal-poem  { font-size: 1rem; }
+  .reveal-verse { font-size: 0.68rem; }
+  .reveal-text  {
+    font-size: 0.94rem; line-height: 1.9;
+    padding-top: 0.8rem;
+  }
+  .reveal-change { font-size: 0.73rem; margin-top: 0.9rem; }
+
+  /* ── 繼續按鈕全寬 ── */
+  #next-btn {
+    width: 100%; justify-content: center;
+    padding: 15px 20px; font-size: 0.84rem;
+  }
+
+  /* ── 結果頁整體 ── */
+  .result-wrap      { padding: 1.6rem 1rem 3rem; }
+  .result-event-line { font-size: 0.65rem; }
+  .result-label     { font-size: 0.7rem; letter-spacing: 0.28em; }
+  .result-heading   { font-size: clamp(2rem, 10vw, 2.5rem); }
+  .result-sub {
+    font-size: 0.92rem; line-height: 1.75;
+    margin-bottom: 1.8rem; letter-spacing: 0.04em;
+  }
+
+  /* ── 主色圓 ── */
+  .color-circle      { width: 148px; height: 148px; }
+  .color-circle::after { inset: -7px; }
+  .cc-hex  { font-size: 0.84rem; }
+  .cc-name { font-size: 0.66rem; }
+  .cc-verse {
+    font-size: 0.8rem; line-height: 1.65;
+    max-width: 100%; margin-top: 0.7rem;
+  }
+
+  /* ── 色票條 ── */
+  .palette-strip-row { margin: 1.3rem auto 0.4rem; }
+  .ps { height: 44px; }
+
+  /* ── 型態描述 ── */
+  .result-desc {
+    font-size: 0.92rem; line-height: 2;
+    padding: 1.2rem 1.1rem;
+  }
+
+  /* ── 分析卡 ── */
+  .analysis-grid { grid-template-columns: 1fr; gap: 8px; margin: 1.5rem 0 1.2rem; }
+  .ana-card      { padding: 1rem 1.1rem; }
+  .ana-label     { font-size: 0.68rem; }
+  .ana-value     { font-size: 0.96rem; }
+
+  /* ── 分隔線 ── */
+  .divider { font-size: 0.68rem; margin: 1.4rem 0; }
+
+  /* ── 語言卡 ── */
+  .language-card   { padding: 1.4rem 1.1rem 1.3rem; margin: 1.2rem 0; }
+  .lc-label        { font-size: 0.63rem; }
+  .lc-line         { font-size: 1.04rem; line-height: 1.75; }
+  .lc-hint         { font-size: 0.8rem; line-height: 1.75; margin-top: 0.7rem; }
+
+  /* ── 配對區 ── */
+  .pairing-block { padding: 1.2rem 1.1rem; }
+  .pair-label    { font-size: 0.67rem; }
+  .pair-text     { font-size: 0.92rem; line-height: 1.95; }
+
+  /* ── 底部按鈕 ── */
+  .result-actions {
+    flex-direction: column; align-items: stretch;
+    gap: 10px; margin-top: 2rem;
+  }
+  .result-actions .btn-primary,
+  .result-actions .btn-ghost {
+    width: 100%; justify-content: center;
+    padding: 15px 20px;
+  }
+}
+
+/* ── 極小螢幕 ≤ 360px ── */
+@media (max-width: 360px) {
+  .quiz-wrap     { padding: 1.3rem 0.9rem 1.8rem; }
+  .question-card { padding: 1.2rem 0.9rem 1.1rem; }
+  .q-text        { font-size: 1rem; }
+  .coc-swatch    { height: 100px; }
+  .result-wrap   { padding: 1.4rem 0.9rem 2.5rem; }
+  .result-heading { font-size: 1.9rem; }
+  .color-circle  { width: 130px; height: 130px; }
+  .result-desc   { font-size: 0.88rem; padding: 1rem; }
+  .lc-line       { font-size: 0.96rem; }
+  .pair-text     { font-size: 0.88rem; }
 }
 </style>
 </head>
@@ -631,12 +815,12 @@ const QUESTIONS = [
       {
         hex:'#8a9bb8', poem:'晴湖', verse:'無風時湖面映出的天',
         text:'先把對方說的聽完，再問一個讓他停下來思考的問題',
-        scores:{'遠岫':2,'墨霞':1}
+        scores:{'遠岫':2,'稻金':1}
       },
       {
         hex:'#7a8c78', poem:'苔歲', verse:'一塊苔蘚記得的雨，比任何人都多',
         text:'說的不多，但全都有接住——對方說什麼，你都在',
-        scores:{'苔靜':2,'晨土':1}
+        scores:{'苔靜':2,'初光':1}
       },
       {
         hex:'#e8d8c0', poem:'稻田', verse:'收割前田野的整體色調',
@@ -737,7 +921,7 @@ const RESULTS = {
     verse:   '天剛亮，雲朵被染成的顏色',
     badge:   '初光群 G1 · 溫柔共鳴型',
     heading: '初光',
-    sub:     '你不是軟，你是最早讓對方感覺到「被看見」的人。',
+    sub:     '你不是沒有重量，你是最早讓對方感覺到「被看見」的人。',
     desc:    '你有一種天然的情感接收能力——別人說話時，你幾乎同步感覺到了他在說什麼。這不是技巧，是你真實的感知方式。這讓你說話時帶著一種溫度，對方感覺到「這個人真的在」。\n\n色彩心理學角度：初光群是 49 色中光感最輕柔的一族，對應「開放的情感接收場」——它不是主動發光，而是讓光自然漫進來的質地。\n\n你需要留意的是：你感覺到的有時比對方說的還多，讓你想替他說完——記得讓他先說完，那個空間是他的。',
     palette: [
       {hex:'#ffcbc3', name:'初醒'},
@@ -901,7 +1085,7 @@ function startQuiz() {
 }
 
 /* ════════════════════════════════════════════════════════
-   渲染題目
+   渲染題目（第一階段：純色彩選擇）
 ════════════════════════════════════════════════════════ */
 function renderQuestion() {
   const q   = QUESTIONS[currentQ];
@@ -913,19 +1097,16 @@ function renderQuestion() {
 
   const area = document.getElementById('question-area');
   area.innerHTML = `
-    <div class="question-card">
+    <div class="question-card" id="qcard">
       <span class="q-type-tag">${q.type}</span>
       <div class="q-text">${q.text}</div>
       <div class="q-hint">${q.hint}</div>
+
       <div class="color-options-grid" id="options-grid">
         ${q.options.map((opt, i) => {
-          const dark   = isColorDark(opt.hex);
-          const lblClr = dark
-            ? 'rgba(245,240,232,0.92)'
-            : 'rgba(61,53,48,0.68)';
-          const lblShadow = dark
-            ? '0 1px 4px rgba(0,0,0,0.35)'
-            : '0 0 6px rgba(255,255,255,0.7)';
+          const dark      = isColorDark(opt.hex);
+          const lblClr    = dark ? 'rgba(245,240,232,0.92)' : 'rgba(61,53,48,0.68)';
+          const lblShadow = dark ? '0 1px 4px rgba(0,0,0,0.35)' : '0 0 6px rgba(255,255,255,0.7)';
           return `
             <div class="color-option-card" id="opt-${i}" onclick="selectOption(${i})">
               <div class="coc-swatch" style="background:${opt.hex}">
@@ -933,28 +1114,85 @@ function renderQuestion() {
                 <div class="coc-swatch-label"
                      style="color:${lblClr};text-shadow:${lblShadow}">${opt.poem}</div>
               </div>
-              <div class="coc-body">
-                <div class="coc-text">${opt.text}</div>
-              </div>
             </div>`;
         }).join('')}
       </div>
-    </div>`;
 
-  // Restore selection if going back (N/A here but good practice)
-  if (selections[currentQ] !== undefined) {
-    document.getElementById(`opt-${selections[currentQ]}`).classList.add('selected');
-    document.getElementById('next-btn').style.display = 'inline-flex';
-  }
+      <p class="select-hint" id="select-hint">選一個讓你有感覺的顏色</p>
+    </div>`;
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/* ════════════════════════════════════════════════════════
+   選色 → 進入第二階段：揭示說明
+════════════════════════════════════════════════════════ */
 function selectOption(i) {
+  const q   = QUESTIONS[currentQ];
+  const opt = q.options[i];
   selections[currentQ] = i;
+
+  /* 標記選中 + 淡化其他 */
   document.querySelectorAll('.color-option-card')
     .forEach((el, idx) => el.classList.toggle('selected', idx === i));
+  document.getElementById('options-grid').classList.add('phase-reveal');
+  document.getElementById('qcard').classList.add('phase-reveal');
+
+  /* 移除舊揭示卡（換選時）*/
+  const old = document.getElementById('reveal-card');
+  if (old) old.remove();
+
+  /* 計算揭示卡文字顏色 */
+  const dark   = isColorDark(opt.hex);
+  const dotBdr = dark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)';
+
+  /* 插入揭示卡 */
+  const card = document.createElement('div');
+  card.className = 'reveal-card';
+  card.id = 'reveal-card';
+  card.innerHTML = `
+    <div class="reveal-top">
+      <div class="reveal-dot"
+           style="background:${opt.hex};border-color:${dotBdr}"></div>
+      <div>
+        <div class="reveal-poem">${opt.poem}</div>
+        <div class="reveal-verse">${opt.verse}</div>
+      </div>
+    </div>
+    <div class="reveal-text">${opt.text}</div>
+    <button class="reveal-change" onclick="resetSelection()">← 換一個顏色</button>`;
+
+  document.getElementById('qcard').appendChild(card);
+
+  /* 顯示繼續按鈕，滾動至揭示卡 */
   document.getElementById('next-btn').style.display = 'inline-flex';
+  setTimeout(() => {
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 120);
+}
+
+/* ════════════════════════════════════════════════════════
+   重選：回到第一階段
+════════════════════════════════════════════════════════ */
+function resetSelection() {
+  selections[currentQ] = undefined;
+
+  /* 移除揭示卡 */
+  const rc = document.getElementById('reveal-card');
+  if (rc) rc.remove();
+
+  /* 重置 phase-reveal 狀態 */
+  document.getElementById('options-grid').classList.remove('phase-reveal');
+  document.getElementById('qcard').classList.remove('phase-reveal');
+
+  /* 取消選中 */
+  document.querySelectorAll('.color-option-card')
+    .forEach(el => el.classList.remove('selected'));
+
+  /* 隱藏繼續按鈕 */
+  document.getElementById('next-btn').style.display = 'none';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function nextQuestion() {
@@ -1005,19 +1243,25 @@ function calcResult() {
 function showResult(type) {
   const r = RESULTS[type];
 
-  document.getElementById('r-badge').textContent   = r.badge;
-  document.getElementById('r-heading').textContent = r.heading;
-  document.getElementById('r-sub').textContent     = r.sub;
-  document.getElementById('r-verse').textContent   = r.verse;
-  document.getElementById('r-desc').textContent    = r.desc;
+  document.getElementById('r-badge').textContent    = r.badge;
+  document.getElementById('r-heading').textContent  = r.heading;
+  document.getElementById('r-sub').textContent      = r.sub;
+  document.getElementById('r-verse').textContent    = r.verse;
   document.getElementById('r-chatline').textContent = r.chatLine;
   document.getElementById('r-chathint').textContent = r.chatHint;
   document.getElementById('r-pair').innerHTML       = r.pair;
 
+  // desc：\n\n 轉為段落標籤，確保手機可讀
+  const descEl = document.getElementById('r-desc');
+  descEl.innerHTML = r.desc
+    .split('\n\n')
+    .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+    .join('');
+
   // 主色圓
-  const circle   = document.getElementById('r-circle');
-  const isDark   = isColorDark(r.hex);
-  const textClr  = isDark ? 'rgba(245,240,232,0.92)' : 'rgba(61,53,48,0.88)';
+  const circle  = document.getElementById('r-circle');
+  const isDark  = isColorDark(r.hex);
+  const textClr = isDark ? 'rgba(245,240,232,0.92)' : 'rgba(61,53,48,0.88)';
   circle.style.background = r.hex;
   document.getElementById('r-hex').style.color  = textClr;
   document.getElementById('r-name').style.color = textClr;
